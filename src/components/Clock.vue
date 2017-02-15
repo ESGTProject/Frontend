@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="container">
-    <h1>Weather</h1>
+    <h1>Clock</h1>
   </div>
 </template>
 

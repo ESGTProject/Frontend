@@ -1,19 +1,28 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <Hello/>
+    <!-- <img src="./assets/logo.png"> -->
+    <!-- <Hello/> -->
+    <SensorValue sensorName="Light"/>
+    <SensorGraph sensorName="Light"/>
     <Weather/>
+    <Clock/>
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello'
 import Weather from './components/Weather'
+import SensorValue from './components/SensorValue'
+import SensorGraph from './components/SensorGraph'
+import Clock from './components/Clock'
 export default {
   name: 'app',
   components: {
     Hello,
-    Weather
+    Weather,
+    SensorValue,
+    SensorGraph,
+    Clock
   }
 }
 </script>
@@ -24,6 +33,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
   color: #2c3e50;
   margin-top: 60px;
 }
