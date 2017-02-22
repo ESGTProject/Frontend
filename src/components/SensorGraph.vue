@@ -1,11 +1,13 @@
 <template lang="html">
-  <div id="container">
+  <div id="container" ref="cont">
     <SensorValue v-bind:sensorName="sensorName" v-bind:upstreamValue="value"/>
     <vue-chart
     chart-type="LineChart"
     v-bind:columns="columns"
     v-bind:rows="rows"
-    v-bind:options="options"/>
+    v-bind:options="options"
+    ref="thisherechart"/>
+    <resize-observer @notify="handleResize" />
   </div>
 </template>
 
@@ -48,6 +50,10 @@ export default {
   mounted: function () {
     // var year = 2008
     this.fetchData('https://www.jasonbase.com/things/1lD.json') // Example url change later
+    // this.getChartData()
+    // var self = this
+    this.$refs.cont.onresize = function () {
+    }
     // setInterval(function () {
       // this.rows.push([String(year), Math.random() * 1000])
       // year++
@@ -62,6 +68,10 @@ export default {
           return [x.ts, x.value]
         })
       })
+    },
+    handleResize () {
+      // Redraw the chart on resize
+      this.$refs.thisherechart.drawChart()
     }
   },
   components: {
@@ -75,7 +85,5 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  #container {
-    flex: 1
-  }
+
 </style>
