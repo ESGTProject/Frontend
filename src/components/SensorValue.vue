@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="container">
     <h1>{{ sensorName }}</h1>
-    <p>{{ upstreamValue ? upstreamValue : value }}</p>
+    <p>{{ upstreamValue ? upstreamValue : value }} <span>{{ upstreamUnits ? upstreamUnits : units }}</span></p>
   </div>
 </template>
 
@@ -9,24 +9,42 @@
 export default {
   data () {
     return {
-      value: -1
+      value: -1,
+      interval: -1,
+      units: 'units'
     }
   },
   props: {
     sensorName: String,
     sensorUrl: String,
-    upstreamValue: Number
+    upstreamValue: Number,
+    upstreamUnits: {
+      default: 'units',
+      type: String
+    },
+    updateInterval: {
+      default: 30,
+      type: Number
+    }
   },
   mounted: function () {
-    // if (this.sensorUrl) {
-    // }
-    this.fetchData('https://www.jasonbase.com/things/aYE.json') // Example url change later
+    if (this.sensorUrl) {
+      this.fetchData(this.sensorUrl)
+      // Call the update function every x seconds
+      this.interval = setInterval(function () {
+        this.fetchData(this.sensorUrl)
+      }.bind(this), this.updateInterval * 1000)
+    }
+  },
+  unmounted: function () {
+    clearInterval(this.interval)
   },
   methods: {
     fetchData: function (url) {
       this.$http.get(url).then((resp) => {
-        console.log(resp.body)
-        this.value = resp.body.value
+        var data = resp.body[0]
+        this.value = data.value.toFixed(3)
+        this.unit = data.units
       })
     }
   }

@@ -1,6 +1,6 @@
-<template lang="html">
+<template>
   <div id="container">
-    <SensorValue v-bind:sensorName="sensorName" v-bind:upstreamValue="value"/>
+    <SensorValue v-bind:sensorName="sensorName" v-bind:units="units" v-bind:upstreamValue="value"/>
     <vue-chart
     chart-type="LineChart"
     v-bind:columns="columns"
@@ -15,9 +15,11 @@ export default {
   data () {
     return {
       value: -2,
+      interval: -1,
+      units: 'units',
       columns: [
         {
-          'type': 'number',
+          'type': 'string',
           'label': 'Timestamp'
         },
         {
@@ -46,20 +48,23 @@ export default {
     }
   },
   mounted: function () {
-    // var year = 2008
-    this.fetchData('https://www.jasonbase.com/things/1lD.json') // Example url change later
-    // setInterval(function () {
-      // this.rows.push([String(year), Math.random() * 1000])
-      // year++
-    // }.bind(this), 1000)
+    this.fetchData(this.sensorUrl)
+    this.interval = setInterval(function () {
+      this.fetchData(this.sensorUrl)
+    }.bind(this), this.updateInterval * 1000)
+  },
+  unmounted: function () {
+    clearInterval(this.interval)
   },
   methods: {
     fetchData: function (url) {
       this.$http.get(url).then((resp) => {
-        console.log(resp.body)
-        this.value = resp.body.value
-        this.rows = resp.body.oldValues.map(x => {
-          return [x.ts, x.value]
+        var data = resp.body
+        this.value = parseFloat(data[0].value.toFixed(3))
+        this.units = data[0].units
+        this.rows = data.reverse().map(x => {
+          var d = new Date(x.timestamp).toString()
+          return [d.slice(16, 24), x.value]
         })
       })
     }
@@ -69,12 +74,16 @@ export default {
   },
   props: {
     sensorName: String,
-    sensorUrl: String
+    sensorUrl: String,
+    updateInterval: {
+      default: 30,
+      type: Number
+    }
   }
 }
 </script>
 
-<style lang="css" scoped>
+<style scoped>
   #container {
     flex: 1
   }

@@ -2,8 +2,8 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <!-- <Hello/> -->
-    <SensorValue sensorName="Light"/>
-    <SensorGraph sensorName="Light"/>
+    <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/>
+    <SensorGraph sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light"/>
     <Weather/>
     <Clock/>
   </div>
