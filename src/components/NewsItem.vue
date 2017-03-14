@@ -1,9 +1,8 @@
 <template lang="html">
-  <div
-      id="innercontainer"
-      v-on:click="onClick">
+  <div id="innercontainer">
     <p>{{ title }}</p>
-    <img v-bind:src="imgUrl">
+    <img v-bind:src="imgUrl"
+    v-on:click="onClick">
   </div>
 </template>
 
@@ -33,7 +32,7 @@ export default {
 
 <style lang="css" scoped>
   img {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 300px;
+    max-height: 240px;
   }
 </style>
