@@ -1,6 +1,6 @@
 <template>
   <div id="container">
-    <SensorValue v-bind:sensorName="sensorName" v-bind:units="units" v-bind:upstreamValue="value"/>
+    <SensorValue v-bind:sensorName="sensorName" v-bind:upstreamUnits="units" v-bind:upstreamValue="value"/>
     <vue-chart
     chart-type="LineChart"
     v-bind:columns="columns"
@@ -85,6 +85,6 @@ export default {
 
 <style scoped>
   #container {
-    flex: 1
+    flex: auto;
   }
 </style>

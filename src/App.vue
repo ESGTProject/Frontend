@@ -1,11 +1,16 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
-    <!-- <Hello/> -->
-    <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/>
-    <SensorGraph sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light"/>
+    <div class="vert">
+      <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/>
+      <SensorGraph sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light"/>
+      <Clock/>
+    </div>
+    <div class='vert'>
+      <News dataUrl="http://esgt.ddns.net:8000/resource/news" source="google-news"/>
+      <Calendar />
+    </div>
     <Weather/>
-    <Clock/>
   </div>
 </template>
 
@@ -15,6 +20,7 @@ import Weather from './components/Weather'
 import SensorValue from './components/SensorValue'
 import SensorGraph from './components/SensorGraph'
 import Clock from './components/Clock'
+import News from './components/News'
 export default {
   name: 'app',
   components: {
@@ -22,12 +28,13 @@ export default {
     Weather,
     SensorValue,
     SensorGraph,
-    Clock
+    Clock,
+    News
   }
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,6 +44,12 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 98vh;
+}
+.vert {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

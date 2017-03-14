@@ -28,6 +28,6 @@ export default {
 
 <style lang="css">
 #container {
-  flex: 1;
+  flex: 0 auto;
 }
 </style>

@@ -18,10 +18,7 @@ export default {
     sensorName: String,
     sensorUrl: String,
     upstreamValue: Number,
-    upstreamUnits: {
-      default: 'units',
-      type: String
-    },
+    upstreamUnits: String,
     updateInterval: {
       default: 30,
       type: Number
@@ -44,7 +41,7 @@ export default {
       this.$http.get(url).then((resp) => {
         var data = resp.body[0]
         this.value = data.value.toFixed(3)
-        this.unit = data.units
+        this.units = data.units
       })
     }
   }
@@ -53,7 +50,7 @@ export default {
 
 <style lang="css" scoped>
   #container {
-    flex: 1
+    flex: 0 auto;
   }
   p {
     font-size: 1.5em;
