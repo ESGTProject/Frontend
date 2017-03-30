@@ -83,7 +83,7 @@ export default {
       userId = u.val()
       console.log(userId)
       rootRef.child('users/' + userId).on('value', function (conf) {
-        var config = conf.val()
+        var config = conf.val().config
         console.log(config)
         console.log(config.display_name)
         self.config.News.source = config.news_source
