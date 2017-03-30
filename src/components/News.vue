@@ -38,7 +38,6 @@ export default {
   },
   watch: {
     source: function (newVal, oldVal) {
-      console.log(newVal, oldVal)
       this.fetchData()
       return newVal
     }
