@@ -6,6 +6,9 @@ import App from './App'
 
 var VueResource = require('vue-resource')
 var VueCharts = require('vue-charts/dist/vue-charts.js')
+var VueFire = require('vuefire')
+
+Vue.use(VueFire)
 Vue.use(VueResource)
 Vue.use(VueCharts)
 

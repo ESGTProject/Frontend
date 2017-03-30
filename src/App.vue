@@ -7,8 +7,8 @@
       <Clock/>
     </div>
     <div class='vert'>
-      <News dataUrl="http://esgt.ddns.net:8000/resource/news" source="google-news"/>
-      <Calendar />
+      <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source"/>
+      <YTVideo v-bind:url="config.YTVideo.url"/>
     </div>
     <Weather/>
   </div>
@@ -21,6 +21,24 @@ import SensorValue from './components/SensorValue'
 import SensorGraph from './components/SensorGraph'
 import Clock from './components/Clock'
 import News from './components/News'
+import YTVideo from './components/YTVideo'
+import Firebase from 'firebase'
+
+let config = {
+  apiKey: 'AIzaSyAhfZI9SSNWMVcoODVovNrfLlmh28vVpvk',
+  authDomain: 'esgtapp.firebaseapp.com',
+  databaseURL: 'https://esgtapp.firebaseio.com',
+  storageBucket: 'esgtapp.appspot.com',
+  messagingSenderId: '577511514187'
+}
+
+let firebaseApp = Firebase.initializeApp(config)
+
+let db = firebaseApp.database()
+let rootRef = db.ref()
+let currUser = db.ref('devices/-KgICjJhWb4elAflr1_J/user_current')
+var userId = ''
+
 export default {
   name: 'app',
   components: {
@@ -29,7 +47,45 @@ export default {
     SensorValue,
     SensorGraph,
     Clock,
-    News
+    News,
+    YTVideo
+  },
+  data () {
+    return {
+      config: {
+        News: {
+          source: 'google-news'
+        },
+        YTVideo: {
+          url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+        }
+      }
+    }
+  },
+  firebase: function () {
+    return {
+    }
+  },
+  beforeCreate: function () {
+    Firebase.auth().signInAnonymously().catch(function (error) {
+      // Handle Errors here.
+      var errorCode = error.code
+      var errorMessage = error.message
+      console.log(errorMessage + errorCode)
+    })
+  },
+  mounted: function () {
+    var self = this
+    currUser.on('value', function (u) {
+      userId = u.val()
+      console.log(userId)
+      rootRef.child('users/' + userId).on('value', function (conf) {
+        var config = conf.val()
+        console.log(config)
+        console.log(config.display_name)
+        self.config.News.source = config.news_source
+      })
+    })
   }
 }
 </script>

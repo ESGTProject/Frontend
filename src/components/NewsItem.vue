@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="innercontainer">
-    <p>{{ title }}</p>
-    <img v-bind:src="imgUrl"
+    <p>{{ this.data.title }}</p>
+    <img v-bind:src="this.imgUrl"
     v-on:click="onClick">
   </div>
 </template>
@@ -10,9 +10,6 @@
 export default {
   data () {
     return {
-      title: this.data.title,
-      srcUrl: this.data.url,
-      imgUrl: this.data.urlToImage
     }
   },
   props: {
@@ -21,10 +18,19 @@ export default {
       required: true
     }
   },
+  computed: {
+    imgUrl: function () {
+      if (this.data.urlToImage != null) {
+        return this.data.urlToImage
+      } else {
+        return 'https://placehold.it/360x270'
+      }
+    }
+  },
   methods: {
     onClick: function () {
-      console.log(this.srcUrl)
-      window.open(this.srcUrl)
+      console.log(this.data.srcUrl)
+      window.open(this.data.srcUrl)
     }
   }
 }

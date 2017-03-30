@@ -36,14 +36,21 @@ export default {
     dataUrl: String,
     source: String
   },
+  watch: {
+    source: function (newVal, oldVal) {
+      console.log(newVal, oldVal)
+      this.fetchData()
+      return newVal
+    }
+  },
   mounted: function () {
-    this.fetchData(this.dataUrl)
+    this.fetchData()
   },
   methods: {
-    fetchData: function (url) {
-      this.$http.get(url, {params: {source: this.source}}).then((resp) => {
+    fetchData: function () {
+      this.$http.get(this.dataUrl, {params: {source: this.source}}).then((resp) => {
         var d = resp.body
-        console.log(d)
+        console.log(d, this.source)
         this.data = d
         this.$refs.carousel.setSize() // manually refresh
       })
