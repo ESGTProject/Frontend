@@ -1,12 +1,17 @@
 <template lang="html">
   <div id="container">
     <h1>Weather</h1>
-    <p>High: {{high}}&deg;F</p><br>
-    <p>Low: {{low}}&deg;F</p><br>
-    <p>{{time%12}} {{AMorPM}}: {{hour1}}&deg;F</p><br>
-    <p>{{(time+1)%12}} {{AMorPM}}: {{hour2}}&deg;F</p><br>
-    <p>{{(time+2)%12}} {{AMorPM}}: {{hour3}}&deg;F</p><br>
-    <p>{{(time+3)%12}} {{AMorPM}}: {{hour4}}&deg;F</p><br>
+    <h4><u>City: {{city}} ({{country}})</u></h4>
+    <p>High: {{high}}&deg;F</p>
+    <p>Low: {{low}}&deg;F</p>
+    <p>{{time%12}} {{AMorPM}}: {{temperature}}&deg;F</p>
+    <i class="wi wi-night-sleet"></i>
+
+    <!--icon may or may not work-->
+    <p>Humidity: {{humidity}}%</p>
+    <p>Rain: {{rain}} inches</p>
+    <p>Wind: {{wind}} mph</p>
+    <p>Cloudiness: {{cloudiness}}%</p>
   </div>
 </template>
 
@@ -16,48 +21,68 @@ export default {
     return {
       high: 0,
       low: 0,
-      hour1: 0,
-      hour2: 0,
-      hour3: 0,
-      hour4: 0,
+      city: 0,
+      cloudiness: 0,
+      country: 0,
+      humidity: 0,
+      rain: 0,
+      temperature: 0,
+      wind: 0,
       time: 0,
-      AMorPM: 0
+      AMorPM: 0,
+      icon: 0
     }
   },
+  props: {
+    dataUrl: String,
+    location: String
+  },
   mounted: function () {
-    var d = new Date()
-    var n = d.getHours()
-    var temp = [23, 56, 23, 67, 23, 67, 98, 34, 78, 15, 57, 89, 34, 78, 354, 67, 89, 34, 78, 78, 45, 45, 67, 45]
-    console.log(n)  // print n to console
-    this.time = n
-    if (n < 12) {
+    this.$http.get(this.dataUrl, {params: {location: this.location}}).then((resp) => {
+      console.log(resp)
+      console.log(resp.body)
+      this.city = resp.body.city
+      this.country = resp.body.country
+      this.high = resp.body.temp_max
+      this.low = resp.body.temp_min
+      this.humidity = resp.body.humidity
+      this.rain = resp.body.rain
+      this.wind = resp.body.wind
+      this.cloudiness = resp.body.cloudiness
+      this.temperature = resp.body.temp
+      this.icon = resp.body.icon
+      var d = resp.body.timestamp
+      var k = new Date(d)
+      this.time = k.getHours()
+    })
+    if (this.time < 12) {
       this.AMorPM = 'AM'
     } else {
       this.AMorPM = 'PM'
     }
-    this.hour1 = temp[n % 24]
-    this.hour2 = temp[(n + 1) % 24]
-    this.hour3 = temp[(n + 2) % 24]
-    this.hour4 = temp[(n + 3) % 24]
-    this.high = Math.max(...temp)
-    this.low = Math.min(...temp)
+    // console.log(n)  // print n to console
     setInterval(function () {
-    //  var temp = [23, 56, 23, 67, 23, 67, 98, 34, 78, 15, 57, 89, 34, 78, 354, 67, 89, 34, 78, 78, 45, 45, 67, 45]
-      d = new Date()
-      n = d.getHours()
-      this.time = n
-      if (n < 12) {
+      this.$http.get(this.dataUrl, {params: {location: this.location}}).then((resp) => {
+        this.city = resp.body.city
+        this.country = resp.body.country
+        this.high = resp.body.temp_max
+        this.low = resp.body.temp_min
+        this.humidity = resp.body.humidity
+        this.rain = resp.body.rain
+        this.wind = resp.body.wind
+        this.cloudiness = resp.body.cloudiness
+        this.temperature = resp.body.temp
+        this.icon = resp.body.icon
+        var d = resp.body.timestamp
+        var k = new Date(d)
+        this.time = k.getHours()
+      })
+      if (this.time < 12) {
         this.AMorPM = 'AM'
       } else {
         this.AMorPM = 'PM'
       }
-      this.hour1 = temp[n % 24]
-      this.hour2 = temp[(n + 1) % 24]
-      this.hour3 = temp[(n + 2) % 24]
-      this.hour4 = temp[(n + 3) % 24]
-      this.high = Math.max(...temp)
-      this.low = Math.min(...temp)
-    }.bind(this), 1000) // update time every second
+    }.bind(this), 60000) // update time every 1 second
   }
 }
 </script>

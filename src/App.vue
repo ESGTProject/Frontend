@@ -10,7 +10,7 @@
       <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source"/>
       <YTVideo v-bind:url="config.YTVideo.url"/>
     </div>
-    <Weather/>
+    <Weather dataUrl="http://esgt.ddns.net:8000/resource/weather" v-bind:location="config.Weather.location"/>
   </div>
 </template>
 
@@ -56,6 +56,9 @@ export default {
         News: {
           source: 'google-news'
         },
+        Weather: {
+          location: '4180439'
+        },
         YTVideo: {
           url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
         }
@@ -84,6 +87,7 @@ export default {
         console.log(config)
         console.log(config.display_name)
         self.config.News.source = config.news_source
+        self.config.Weather.location = config.weather_location
       })
     })
   }
