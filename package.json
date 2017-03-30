@@ -1,6 +1,6 @@
 {
   "name": "esgtfrontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Frontend for ESGT Magic Mirror",
   "author": "",
   "private": true,
@@ -10,9 +10,11 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "firebase": "^3.7.4",
+    "moment": "^2.17.1",
     "vue": "^2.1.10",
-    "vue-carousel-3d": "^0.1.8",
-    "vue-router": "^2.2.0"
+    "vue-router": "^2.2.0",
+    "vuefire": "^1.4.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",

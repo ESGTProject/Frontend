@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="container">
     <h1>Clock</h1>
-<p>{{value}}</p>
+    <h2>{{value}}</h2>
   </div>
 </template>
 
@@ -10,18 +10,22 @@
 export default {
   data () {
     return {
-      value: 0
+      value: 0,
+      hour: 0,
+      minutes: 0,
+      AMorPM: 0
     }
   },
   mounted: function () {
+    var moment = require('moment')
     var d = new Date()
     var n = d.toTimeString()
     console.log(n)  // print n to console
-    this.value = n
+    this.value = moment().format('LT')
     setInterval(function () {
       d = new Date()
-      this.value = d.toTimeString()
-    }.bind(this), 1000) // update time every second
+      this.value = moment().format('LT')
+    }.bind(this), 30000) // update time every second
   }
 }
 </script>
