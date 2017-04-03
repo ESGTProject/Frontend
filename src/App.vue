@@ -88,6 +88,7 @@ export default {
         console.log(config.display_name)
         self.config.News.source = config.news_source
         self.config.Weather.location = config.weather_location
+        self.config.YTVideo.url = config.yt_url
       })
     })
   }
