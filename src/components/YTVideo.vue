@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     embedUrl: function () {
-      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+      var regExp = /^.*((youtube\.com|youtu\.be)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
       var match = this.url.match(regExp)
       var id = match[7]
       return 'https://www.youtube.com/embed/' + id
