@@ -28,6 +28,12 @@ export default {
         }],
       rows: [],
       options: {
+        backgroundColor: '#101010',
+        series: {
+          0: {
+            color: '#ffffff'
+          }
+        },
         hAxis: {
           textPosition: 'none',
           gridlines: {
@@ -36,6 +42,7 @@ export default {
         },
         vAxis: {
           textPosition: 'none',
+          baselineColor: 'transparent',
           gridlines: {
             color: 'transparent'
           }

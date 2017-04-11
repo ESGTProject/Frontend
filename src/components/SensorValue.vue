@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="container">
     <h1>{{ sensorName }}</h1>
-    <p>{{ upstreamValue ? upstreamValue : value }} <span>{{ upstreamUnits ? upstreamUnits : units }}</span></p>
+    <p id="value">{{ upstreamValue ? upstreamValue : value }} <span>{{ upstreamUnits ? upstreamUnits : units }}</span></p>
   </div>
 </template>
 
@@ -54,5 +54,8 @@ export default {
   }
   p {
     font-size: 1.5em;
+  }
+  #value {
+    font-weight: bold;
   }
 </style>
