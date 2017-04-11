@@ -38,7 +38,6 @@ let config = {
 }
 
 let firebaseApp = Firebase.initializeApp(config)
-let PythonShell = require('python-shell')
 
 let db = firebaseApp.database()
 let rootRef = db.ref()
@@ -58,7 +57,6 @@ export default {
   },
   data () {
     return {
-      pyshell: new PythonShell('hover/sender.py'),
       userId: '',
       config: {
         News: {
@@ -103,7 +101,6 @@ export default {
         console.log('Showing device ID')
       }
     })
-    
   },
   unmounted: function () {
   }
