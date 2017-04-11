@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="innercontainer">
-    <p>{{ this.data.title }}</p>
+    <p id="title">{{ this.data.title }}</p>
     <img v-bind:src="this.imgUrl"
     v-on:click="onClick">
   </div>
@@ -40,5 +40,8 @@ export default {
   img {
     max-width: 300px;
     max-height: 240px;
+  }
+  #title {
+    font-weight: bold;
   }
 </style>

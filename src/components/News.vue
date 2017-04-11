@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="container">
+  <div class="container">
     <h1>Feed</h1>
     <carousel-3d
       ref="carousel"
@@ -43,7 +43,9 @@ export default {
     }
   },
   mounted: function () {
-    this.fetchData()
+    setTimeout(function () {
+      this.fetchData()
+    }.bind(this), 2000)
   },
   methods: {
     fetchData: function () {
