@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
+    <!-- <div v-bind:class="{'overlay': userId}"> -->
     <div class="vert">
       <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/>
       <SensorGraph sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light"/>
@@ -10,7 +11,10 @@
       <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source"/>
       <YTVideo v-bind:url="config.YTVideo.url"/>
     </div>
-    <Weather dataUrl="http://esgt.ddns.net:8000/resource/weather" v-bind:location="config.Weather.location"/>
+    <div class="vert">
+      <Weather dataUrl="http://esgt.ddns.net:8000/resource/weather" v-bind:location="config.Weather.location"/>
+      <Calendar/>
+    </div>
   </div>
 </template>
 
@@ -22,6 +26,7 @@ import SensorGraph from './components/SensorGraph'
 import Clock from './components/Clock'
 import News from './components/News'
 import YTVideo from './components/YTVideo'
+import Calendar from './components/Calendar'
 import Firebase from 'firebase'
 
 let config = {
@@ -33,11 +38,11 @@ let config = {
 }
 
 let firebaseApp = Firebase.initializeApp(config)
+let PythonShell = require('python-shell')
 
 let db = firebaseApp.database()
 let rootRef = db.ref()
 let currUser = db.ref('devices/-KgICjJhWb4elAflr1_J/user_current')
-var userId = ''
 
 export default {
   name: 'app',
@@ -48,10 +53,13 @@ export default {
     SensorGraph,
     Clock,
     News,
-    YTVideo
+    YTVideo,
+    Calendar
   },
   data () {
     return {
+      pyshell: new PythonShell('hover/sender.py'),
+      userId: '',
       config: {
         News: {
           source: 'google-news'
@@ -80,17 +88,24 @@ export default {
   mounted: function () {
     var self = this
     currUser.on('value', function (u) {
-      userId = u.val()
-      console.log(userId)
-      rootRef.child('users/' + userId).on('value', function (conf) {
-        var config = conf.val().config
-        console.log(config)
-        console.log(config.display_name)
-        self.config.News.source = config.news_source
-        self.config.Weather.location = config.weather_location
-        self.config.YTVideo.url = config.yt_url
-      })
+      self.userId = u.val()
+      if (self.userId !== '') {
+        console.log(self.suserId)
+        rootRef.child('users/' + self.userId).on('value', function (conf) {
+          var config = conf.val().config
+          console.log(config)
+          console.log(config.display_name)
+          self.config.News.source = config.news_source
+          self.config.Weather.location = config.weather_location
+          self.config.YTVideo.url = config.yt_url
+        })
+      } else {
+        console.log('Showing device ID')
+      }
     })
+    
+  },
+  unmounted: function () {
   }
 }
 </script>
@@ -104,7 +119,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  color: #2c3e50;
+  color: #ffffff;
   height: 98vh;
 }
 .vert {
