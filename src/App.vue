@@ -8,7 +8,7 @@
       <Clock/>
     </div>
     <div class='vert'>
-      <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source"/>
+      <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source" v-bind:hoverIn="hoverIn"/>
       <YTVideo v-bind:url="config.YTVideo.url"/>
     </div>
     <div class="vert">
@@ -43,6 +43,10 @@ let db = firebaseApp.database()
 let rootRef = db.ref()
 let currUser = db.ref('devices/-KgICjJhWb4elAflr1_J/user_current')
 
+// WebSockets!
+var Socket = require('simple-websocket')
+var socket = new Socket('ws://143.215.100.14:8000/echo')
+
 export default {
   name: 'app',
   components: {
@@ -58,6 +62,7 @@ export default {
   data () {
     return {
       userId: '',
+      hoverIn: 0,
       config: {
         News: {
           source: 'google-news'
@@ -88,7 +93,7 @@ export default {
     currUser.on('value', function (u) {
       self.userId = u.val()
       if (self.userId !== '') {
-        console.log(self.suserId)
+        console.log(self.userId)
         rootRef.child('users/' + self.userId).on('value', function (conf) {
           var config = conf.val().config
           console.log(config)
@@ -100,6 +105,10 @@ export default {
       } else {
         console.log('Showing device ID')
       }
+    })
+    socket.on('data', function (data) {
+      var inp = data.toString()
+      this.hoverIn = parseInt(inp.match(/\d/g)[0])
     })
   },
   unmounted: function () {
