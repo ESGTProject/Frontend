@@ -3,12 +3,12 @@
     <!-- <img src="./assets/logo.png"> -->
     <!-- <div v-bind:class="{'overlay': userId}"> -->
     <div class="vert">
-      <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/>
+      <!-- <SensorValue sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light?limit=1"/> -->
       <SensorGraph sensorName="Light" sensorUrl="http://esgt.ddns.net:8000/resource/light"/>
       <Clock/>
     </div>
     <div class='vert'>
-      <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source" v-bind:hoverIn="hoverIn"/>
+      <News dataUrl="http://esgt.ddns.net:8000/resource/news" v-bind:source="config.News.source" ref="news"/>
       <YTVideo v-bind:url="config.YTVideo.url"/>
     </div>
     <div class="vert">
@@ -45,7 +45,7 @@ let currUser = db.ref('devices/-KgICjJhWb4elAflr1_J/user_current')
 
 // WebSockets!
 var Socket = require('simple-websocket')
-var socket = new Socket('ws://143.215.100.14:8000/echo')
+var socket = new Socket('ws://pimagicmirror.duckdns.org:8000/echo')
 
 export default {
   name: 'app',
@@ -108,7 +108,15 @@ export default {
     })
     socket.on('data', function (data) {
       var inp = data.toString()
-      this.hoverIn = parseInt(inp.match(/\d/g)[0])
+      var hoverIn = parseInt(inp.match(/\d/g)[0])
+      switch (hoverIn) {
+        case 1:
+          self.$refs.news.goNext()
+          break
+        case 2:
+          self.$refs.news.goPrev()
+          break
+      }
     })
   },
   unmounted: function () {

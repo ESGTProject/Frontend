@@ -10,7 +10,6 @@
       <slide
         v-for="(item, ind) in data"
         v-bind:index="ind">
-        <!-- <img src="https://placehold.it/360x270" /> -->
         <NewsItem v-bind:data="item"/>
       </slide>
     </carousel-3d>
@@ -48,6 +47,12 @@ export default {
     }.bind(this), 2000)
   },
   methods: {
+    goNext: function () {
+      this.$refs.carousel.goNext()
+    },
+    goPrev: function () {
+      this.$refs.carousel.goPrev()
+    },
     fetchData: function () {
       this.$http.get(this.dataUrl, {params: {source: this.source}}).then((resp) => {
         var d = resp.body
