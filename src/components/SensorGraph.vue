@@ -28,7 +28,7 @@ export default {
         }],
       rows: [],
       options: {
-        backgroundColor: '#101010',
+        backgroundColor: '#000000',
         series: {
           0: {
             color: '#ffffff'
@@ -92,6 +92,6 @@ export default {
 
 <style scoped>
   #container {
-    flex: auto;
+    flex: 1;
   }
 </style>
