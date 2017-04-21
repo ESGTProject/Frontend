@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div id="container">
     <h1>Feed</h1>
     <carousel-3d
       ref="carousel"
@@ -9,8 +9,9 @@
       v-bind:border="0">
       <slide
         v-for="(item, ind) in data"
-        v-bind:index="ind">
-        <NewsItem v-bind:data="item"/>
+        v-bind:index="ind"
+        >
+        <NewsItem v-bind:data="item" v-bind:hidden="hidden"/>
       </slide>
     </carousel-3d>
   </div>
@@ -33,18 +34,22 @@ export default {
   },
   props: {
     dataUrl: String,
-    source: String
+    source: String,
+    hidden: Boolean
   },
   watch: {
     source: function (newVal, oldVal) {
       this.fetchData()
+      return newVal
+    },
+    hidden: function (newVal, oldVal) {
       return newVal
     }
   },
   mounted: function () {
     setTimeout(function () {
       this.fetchData()
-    }.bind(this), 2000)
+    }.bind(this), 1000)
   },
   methods: {
     goNext: function () {
@@ -56,7 +61,7 @@ export default {
     fetchData: function () {
       this.$http.get(this.dataUrl, {params: {source: this.source}}).then((resp) => {
         var d = resp.body
-        console.log(d, this.source)
+        // console.log(d, this.source)
         this.data = d
         this.$refs.carousel.setSize() // manually refresh
       })
@@ -67,7 +72,7 @@ export default {
 
 <style lang="css" scoped>
   #container {
-    flex: 1;
+    flex: 5 auto;
   }
   /*carousel-3d {
     visibility: hidden;
@@ -80,5 +85,8 @@ export default {
   }
   .carousel-3d-slide {
     background: none;
+  }
+  .hidden {
+    visibility: hidden;
   }
 </style>

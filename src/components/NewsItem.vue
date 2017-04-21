@@ -1,5 +1,6 @@
 <template lang="html">
-  <div id="innercontainer">
+  <div id="innercontainer"
+    v-bind:class="{ hidden: hidden }">
     <p id="title">{{ this.data.title }}</p>
     <img v-bind:src="this.imgUrl"
     v-on:click="onClick">
@@ -16,7 +17,8 @@ export default {
     data: {
       type: Object,
       required: true
-    }
+    },
+    hidden: Boolean
   },
   computed: {
     imgUrl: function () {
@@ -43,5 +45,8 @@ export default {
   }
   #title {
     font-weight: bold;
+  }
+  .hidden {
+    visibility: hidden;
   }
 </style>
