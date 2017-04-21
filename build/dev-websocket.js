@@ -12,8 +12,8 @@ app.get('/', function(req, res, next){
 app.ws('/echo', (ws, req) => {
   var echoWss = expressWs.getWss('/echo');
   ws.on('message', msg => {
-    echoWss.clients.
-    forEach(function (client) {
+    console.log('Recevied: ' + msg)
+    echoWss.clients.forEach(function (client) {
       client.send('Hover:' + msg)
     })
   })
