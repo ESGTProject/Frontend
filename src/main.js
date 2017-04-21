@@ -4,13 +4,15 @@ import Vue from 'vue'
 import App from './App'
 // import router from './router'
 
+import VueYouTubeEmbed from 'vue-youtube-embed'
 var VueResource = require('vue-resource')
-var VueCharts = require('vue-charts/dist/vue-charts.js')
 var VueFire = require('vuefire')
+var VueCharts = require('vue-charts/dist/vue-charts.js')
 
-Vue.use(VueFire)
 Vue.use(VueResource)
+Vue.use(VueFire)
 Vue.use(VueCharts)
+Vue.use(VueYouTubeEmbed)
 
 /* eslint-disable no-new */
 new Vue({
