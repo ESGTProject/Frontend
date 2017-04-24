@@ -1,10 +1,9 @@
-<template lang="html">
+z<template lang="html">
   <div id="container">
-    <h1 class="goleft">Mail</h1>
+    <h1 class="goright">Agenda</h1>
     <div id="ev-container">
-      <div class="goleft" id='mail' v-for="m in mail">
-        <p id="eventline" class="goleft">At: {{ m.date }}, From: {{ m.from }}</p>
-        <p id="subj" class="goleft">{{ m.subject }}</p>
+      <div class="goright" v-for="event in events">
+        <p id="eventline"><span>{{ event.date }}</span>:<span>{{ event.summary }}</span></p>
       </div>
     </div>
   </div>
@@ -13,11 +12,10 @@
 <script>
   var moment = require('moment')
   export default {
-    name: 'Gmail',
     data () {
       return {
         today: moment(),
-        mail: []
+        events: []
       }
     },
     props: {
@@ -25,9 +23,6 @@
       userUID: String
     },
     mounted: function () {
-      setInterval(function () {
-        this.fetchData()
-      }.bind(this), 10 * 1000)
     },
     watch: {
       userUID: function (newVal, oldVal) {
@@ -43,12 +38,11 @@
       fetchData: function () {
         var self = this
         this.$http.get(this.dataUrl, {params: {user_uid: this.userUID, limit: 5}}).then((resp) => {
-          var re = /"?(.+?)"*\s*"*</i
-          self.mail = resp.body.map((mail) => {
+          // console.log(resp.body)
+          self.events = resp.body.map((ev) => {
             return {
-              date: moment(mail.timestamp.slice(0, -6)).format('MM-DD|hh:mm a'),
-              from: re.exec(mail.from)[1],
-              subject: mail.subject
+              date: moment(ev.start).format('MM-DD'),
+              summary: ev.summary
             }
           })
         })
@@ -63,7 +57,7 @@
     overflow: auto;
     display: flex;
     flex-direction: column;
-    align-self: flex-start;
+    align-self: flex-end;
   }
   #ev-container {
     display: flex;
@@ -82,8 +76,8 @@
     flex-direction: column;
     align-items: flex-start;
   }
-  .goleft {
-    align-self: flex-start;
+  .goright {
+    align-self: flex-end;
   }
   h1 {
     margin: 0px;

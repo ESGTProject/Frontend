@@ -1,8 +1,8 @@
 <template lang="html">
   <div id="container">
     <!-- <h1>Clock</h1> -->
-    <h2>{{date}}</h2>
-    <h2>{{time}}</h2>
+    <h2 id="date">{{date}}</h2>
+    <h2 id="time">{{time}}</h2>
     </br>
     <!-- <iframe src="http://free.timeanddate.com/clock/i5ntccrp/n25/szw110/szh110/hbw0/hfc000/cf100/hgr0/fav0/fiv0/mqcfff/mql15/mqw4/mqd94/mhcfff/mhl15/mhw4/mhd94/mmv0/hhcbbb/hmcddd/hsceee" frameborder="0" width="110" height="110"></iframe> -->
   </div>
@@ -38,7 +38,11 @@ export default {
 }
 h2 {
   margin: 2px;
-  font-size: 2.2em;
+  font-size: 2.0em;
   align-self: flex-start;
+}
+#time {
+  font-weight: normal;
+  font-size: 6.4em;
 }
 </style>
