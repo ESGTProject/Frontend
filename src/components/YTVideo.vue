@@ -2,7 +2,7 @@
   <div id="container">
     <!-- <h1>Video</h1> -->
     <!-- <iframe title="YouTube video player" class="youtube-player" type="text/html" v-bind:src="embedUrl" frameborder="0" allowFullScreen ref="player" id="player"></iframe> -->
-    <youtube ref="player" @ready="ready" :video-id="embedUrl"></youtube>
+    <youtube ref="player" player-width="540" @ready="ready" :video-id="embedUrl"></youtube>
   </div>
 </template>
 
