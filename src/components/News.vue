@@ -1,6 +1,5 @@
 <template lang="html">
   <div id="container">
-    <h1>Feed</h1>
     <carousel-3d
       ref="carousel"
       v-bind:controlsVisible="true"

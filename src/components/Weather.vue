@@ -1,19 +1,22 @@
 <template lang="html">
   <div id="container">
-    <h2 class="goleft">Weather</h2>
-    <h3 class="goleft"><u>City: {{city}} ({{country}})</u></h3>
+    <!-- <h2 class="goleft">Weather</h2> -->
+    <h3 class="goleft city"><u>{{city}} ({{country}})</u></h3>
     <div class="valign goleft">
       <img id="img" v-bind:src="condMap[this.icon]">
       <p id="maintemp">{{temperature}}&deg;F</p>
     </div>
     <div class="valign goleft">
       <h3>
-        <img id="img2" v-bind:src="condMap['up']"> {{high}}&deg;F <img id="img2" v-bind:src="condMap['down']"> {{low}}&deg;F
+        <img id="img2" v-bind:src="condMap['up']">
+        <span class="range-condinfo">{{high}}&deg;F</span>
+        <img id="img2" v-bind:src="condMap['down']">
+        <span class="range-condinfo">{{low}}&deg;F</span>
       </h3>
     </div>
     <div class="valign goleft">
-      <span class="condinfo"><img id="img3" v-bind:src="condMap['humid']"> {{humidity}}% &nbsp;</span>
-      <span class="condinfo"><img id="img3" v-bind:src="condMap['10d']"> {{rain}} inches</span>
+      <!-- <span class="condinfo"><img id="img3" v-bind:src="condMap['humid']"> {{humidity}}% &nbsp;</span> -->
+      <span class="rain-condinfo"><img id="img3" v-bind:src="condMap['10d']"> {{rain}} inches</span>
     </div>
     <div class="valign goleft">
       <h3>
@@ -98,7 +101,7 @@ export default {
         var d = resp.body.dt
         this.time = moment(d).format('h A')
         this.timenext = resp.body.forecast_dt.map((dt) => {
-          return moment(dt).format('lll')
+          return moment.utc(dt).local().format('lll')
         })
       })
     },
@@ -106,11 +109,17 @@ export default {
       console.log(this.$refs.scroll)
     }
   },
+  watch: {
+    location: function (newVal, oldVal) {
+      this.fetchData()
+      return newVal
+    }
+  },
   mounted: function () {
     this.fetchData()
-    setTimeout((function () {
+    setTimeout(function () {
       this.fetchData()
-    }.bind(this), 2000))
+    }.bind(this), 1000)
     // console.log(n)  // print n to console
     setInterval(function () {
       this.fetchData()
@@ -163,18 +172,26 @@ h2 {
 }
 #maintemp {
   margin: 0px;
-  font-size: 42px;
+  font-size: 3.8em;
 }
 #img {
   /*position: relative;*/
   /*width: 18%*/
+  width: 90px;
+  height: 90px;
+}
+.rain-condinfo {
+  font-size: 3em;
+}
+.range-condinfo {
+  font-size: 1.6em;
 }
 .condinfo {
   font-size: 30px;
 }
 #img2 {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
 }
 #img3 {
   position: relative;
