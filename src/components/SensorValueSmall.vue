@@ -1,12 +1,12 @@
 <template lang="html">
   <div id="container">
-    <p id="value">{{ sensorName }}: {{ upstreamValue ? upstreamValue : value }} <span>{{ upstreamUnits ? upstreamUnits : units }}</span></p>
+    <p id="value">{{ sensorName }}<br>{{ upstreamValue ? upstreamValue : value }} <span>{{ upstreamUnits ? upstreamUnits : units }}</span></p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Sensor-Value',
+  name: 'Sensor-Value-Small',
   data () {
     return {
       value: -1,
@@ -20,7 +20,7 @@ export default {
     upstreamValue: Number,
     upstreamUnits: String,
     updateInterval: {
-      default: 5,
+      default: 20,
       type: Number
     }
   },
@@ -40,7 +40,6 @@ export default {
     fetchData: function (url) {
       this.$http.get(url).then((resp) => {
         var data = resp.body[0]
-        console.log(data)
         this.value = data.value.toFixed(1)
         this.units = data.units
       })
@@ -52,6 +51,7 @@ export default {
 <style lang="css" scoped>
   #container {
     flex: 0 auto;
+    padding: 5px;
   }
   p {
     font-size: 1.5em;

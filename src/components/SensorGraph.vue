@@ -28,6 +28,7 @@ export default {
         }],
       rows: [],
       options: {
+        chartArea: {top: 0, left: 0, height: '100%', width: '100%'},
         backgroundColor: '#000000',
         series: {
           0: {
@@ -65,9 +66,9 @@ export default {
   },
   methods: {
     fetchData: function (url) {
-      this.$http.get(url).then((resp) => {
+      this.$http.get(url, {params: {limit: 20}}).then((resp) => {
         var data = resp.body
-        this.value = parseFloat(data[0].value.toFixed(3))
+        this.value = parseFloat(data[0].value.toFixed(1))
         this.units = data[0].units
         this.rows = data.reverse().map(x => {
           var d = new Date(x.timestamp).toString()
@@ -83,7 +84,7 @@ export default {
     sensorName: String,
     sensorUrl: String,
     updateInterval: {
-      default: 30,
+      default: 5,
       type: Number
     }
   }
@@ -92,6 +93,11 @@ export default {
 
 <style scoped>
   #container {
-    flex: 1;
+    flex: 1 auto auto;
+    align-items: flex-end;
+    align-self: flex-start;
+    justify-self: flex-start;
+    width: 400px;
   }
+
 </style>
